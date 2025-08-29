@@ -22,6 +22,9 @@ import {
   Send
 } from 'lucide-react';
 import heroImage from '../assets/images/hero/Hero Image.png';
+import aiEcommerceImage from '../assets/images/portfolio/Ai Eccommerce.svg';
+import analyticsDashboardImage from '../assets/images/portfolio/analytics-dashboard.svg';
+import careerPlatformImage from '../assets/images/portfolio/career-platform.svg';
 
 
 const LandingPage = () => {
@@ -65,21 +68,21 @@ const LandingPage = () => {
       title: "AI-Powered E-commerce Platform",
       category: "AI & Automation",
       description: "Revolutionary e-commerce solution with AI-driven product recommendations and automated inventory management.",
-      image: "https://images.pexels.com/photos/7621135/pexels-photo-7621135.jpeg?auto=compress&cs=tinysrgb&w=800",
+      image: aiEcommerceImage,
       tags: ["AI", "E-commerce", "Automation"]
     },
     {
       title: "Retail Analytics Dashboard",
       category: "Data & Analytics",
       description: "Real-time analytics platform providing actionable insights for retail chains across multiple locations.",
-      image: "https://images.pexels.com/photos/590020/pexels-photo-590020.jpg?auto=compress&cs=tinysrgb&w=800",
+      image: analyticsDashboardImage,
       tags: ["Analytics", "Dashboard", "Retail"]
     },
     {
       title: "Career Guidance Platform",
       category: "EdTech",
       description: "AI-powered career guidance platform helping professionals make data-driven career decisions.",
-      image: "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpg?auto=compress&cs=tinysrgb&w=800",
+      image: careerPlatformImage,
       tags: ["AI", "Career", "Platform"]
     }
   ];
