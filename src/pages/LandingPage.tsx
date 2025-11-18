@@ -183,7 +183,7 @@ const LandingPage = () => {
             {/* Main Heading */}
             <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-tight tracking-tight">
               <span className="block text-white">
-                Turning <span className="bg-gradient-to-r from-red-500 via-red-400 to-red-600 bg-clip-text text-transparent">Vision</span>
+                Turning <span className="bg-gradient-to-r from-red-500 via-red-400 to-red-600 bg-clip-text text-transparent inline-block animate-rotate-vision">Vision</span>
               </span>
               <span className="block text-white">
                 Into <span className="bg-gradient-to-r from-red-500 via-red-400 to-red-600 bg-clip-text text-transparent">Reality</span>

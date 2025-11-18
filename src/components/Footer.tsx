@@ -15,50 +15,50 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-black border-t border-gray-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <footer className="relative bg-red-600 text-white">
+      {/* Top black gradient tip with pulsing glow */}
+      <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-b from-black to-red-600 animate-pulse-tip"></div>
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           {/* Company Info */}
           <div className="col-span-2">
             <div className="flex items-center space-x-2 mb-4">
-              <div className="text-red-500 text-2xl font-bold">
-                {'</>'}
-              </div>
+              <div className="text-white text-2xl font-bold">{'</>'}</div>
               <div className="text-white text-xl font-bold tracking-widest" style={{ fontFamily: 'Anata, Inter, sans-serif' }}>
                 SCALABLE
               </div>
             </div>
-            <p className="text-gray-400 mb-6 max-w-md">
-              Turning vision into reality through innovative technology solutions, 
-              AI automation, and strategic partnerships that drive real business growth.
+            <p className="text-white/80 mb-6 max-w-md">
+              Scalable Technology is a product development partner building AI-driven and scalable software for businesses
+              across education, retail, learning and development. Our work supports public and private sector
+              innovation through modern, data-informed solutions.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-white hover:glow-red transition-all duration-300">
-                <Twitter size={20} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white hover:glow-red transition-all duration-300">
-                <Linkedin size={20} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white hover:glow-red transition-all duration-300">
-                <Github size={20} />
-              </a>
+              {[Twitter, Linkedin, Github].map((Icon, idx) => (
+                <a
+                  key={idx}
+                  href="#"
+                  className="text-white/80 hover:text-white transition-all duration-300 hover:scale-110"
+                >
+                  <Icon size={20} />
+                </a>
+              ))}
             </div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-white font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-white font-semibold mb-4"> Navigation</h3>
             <ul className="space-y-2">
               {['Home', 'About', 'Services', 'Portfolio', 'Contact'].map((item) => (
                 <li key={item}>
                   <button
                     onClick={() => {
                       const element = document.getElementById(item.toLowerCase());
-                      if (element) {
-                        element.scrollIntoView({ behavior: 'smooth' });
-                      }
+                      if (element) element.scrollIntoView({ behavior: 'smooth' });
                     }}
-                    className="text-gray-400 hover:text-white transition-colors duration-300"
+                    className="text-white/80 hover:text-white transition-colors duration-300"
                   >
                     {item}
                   </button>
@@ -70,12 +70,12 @@ const Footer = () => {
           {/* Contact Info */}
           <div>
             <h3 className="text-white font-semibold mb-4">Contact</h3>
-            <div className="space-y-2">
-              <div className="flex items-center space-x-2 text-gray-400">
+            <div className="space-y-2 text-white/80">
+              <div className="flex items-center space-x-2">
                 <Mail size={16} />
                 <span>hello@scalable.tech</span>
               </div>
-              <div className="flex items-center space-x-2 text-gray-400">
+              <div className="flex items-center space-x-2">
                 <Phone size={16} />
                 <span>+1 (555) 123-4567</span>
               </div>
@@ -84,14 +84,14 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-400 text-sm mb-4 md:mb-0">
+        <div className="border-t border-red-700 pt-8 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-white/70 text-sm mb-4 md:mb-0">
             © {currentYear} Scalable. All rights reserved.
           </p>
           
           <button
             onClick={scrollToTop}
-            className="bg-red-600/10 hover:bg-red-600 text-red-500 hover:text-white rounded-full p-2 transition-all duration-300 hover:glow-red"
+            className="bg-white/10 hover:bg-white text-red-100 hover:text-white rounded-full p-2 transition-all duration-300 hover:scale-110"
           >
             <ArrowUp size={20} />
           </button>
