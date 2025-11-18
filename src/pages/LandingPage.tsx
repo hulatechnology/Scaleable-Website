@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { 
   ArrowRight, 
@@ -19,50 +18,63 @@ import {
   Phone,
   Mail,
   MapPin,
-  Send
+  Send,
+  X // Added Close Icon
 } from 'lucide-react';
+
+// Keep your existing asset imports
 import heroImage from '../assets/images/hero/Hero Image.png';
 import aiEcommerceImage from '../assets/images/portfolio/Ai Eccommerce.svg';
 import analyticsDashboardImage from '../assets/images/portfolio/analytics-dashboard.svg';
 import careerPlatformImage from '../assets/images/portfolio/career-platform.svg';
 
-
 const LandingPage = () => {
-  // Services data
+  // --- STATE MANAGEMENT ---
+  const [activeService, setActiveService] = useState<number | null>(null);
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // --- DATA ---
+  // Updated Services Data with Images for the Modal
   const services = [
     {
       icon: <Lightbulb className="text-red-500" size={32} />,
       title: "Product Strategy",
-      description: "Strategic roadmapping and market analysis to guide your product development and business growth."
+      description: "Strategic roadmapping and market analysis to guide your product development and business growth.",
+      image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80'
     },
     {
       icon: <Code className="text-red-500" size={32} />,
       title: "Software Development",
-      description: "Custom web and mobile applications built with cutting-edge technologies and best practices."
+      description: "Custom web and mobile applications built with cutting-edge technologies and best practices.",
+      image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80'
     },
     {
       icon: <Bot className="text-red-500" size={32} />,
       title: "AI & Automation",
-      description: "Intelligent automation solutions and AI-powered tools to streamline your business operations."
+      description: "Intelligent automation solutions and AI-powered tools to streamline your business operations.",
+      image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=80'
     },
     {
       icon: <BarChart3 className="text-red-500" size={32} />,
       title: "Data & Analytics",
-      description: "Transform your data into actionable insights with advanced analytics and visualization tools."
+      description: "Transform your data into actionable insights with advanced analytics and visualization tools.",
+      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'
     },
     {
       icon: <Palette className="text-red-500" size={32} />,
       title: "UI/UX Design",
-      description: "Beautiful, user-centered designs that enhance engagement and drive conversions."
+      description: "Beautiful, user-centered designs that enhance engagement and drive conversions.",
+      image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=800&q=80'
     },
     {
       icon: <Users className="text-red-500" size={32} />,
       title: "Fractional Services",
-      description: "Part-time C-level expertise to accelerate growth without full-time executive costs."
+      description: "Part-time C-level expertise to accelerate growth without full-time executive costs.",
+      image: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=800&q=80'
     }
   ];
 
-  // Portfolio projects (first 3)
   const portfolioProjects = [
     {
       title: "AI-Powered E-commerce Platform",
@@ -87,7 +99,6 @@ const LandingPage = () => {
     }
   ];
 
-  // Testimonials data
   const testimonials = [
     {
       name: "Sarah Chen",
@@ -115,23 +126,35 @@ const LandingPage = () => {
     }
   ];
 
-  // Contact form state
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
+  // --- EFFECTS ---
+  
+  // Close modal on Escape key
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setActiveService(null);
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, []);
 
-  // Testimonials carousel state
-  const [currentIndex, setCurrentIndex] = useState(0);
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (activeService !== null) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [activeService]);
 
+  // Testimonial carousel auto-play
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
     }, 5000);
-
     return () => clearInterval(interval);
   }, [testimonials.length]);
+
+  // --- HANDLERS ---
 
   const goToPrevious = () => {
     setCurrentIndex((prevIndex) => 
@@ -151,10 +174,7 @@ const LandingPage = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -165,9 +185,9 @@ const LandingPage = () => {
 
   return (
     <div className="relative">
-      {/* Hero Section */}
+      
+      {/* ================= HERO SECTION ================= */}
       <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
-        {/* Enhanced Background Effects */}
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black"></div>
           <div className="absolute -top-40 -right-40 w-96 h-96 bg-red-600/8 rounded-full blur-3xl animate-pulse"></div>
@@ -175,12 +195,10 @@ const LandingPage = () => {
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-red-600/5 rounded-full blur-2xl"></div>
         </div>
 
-        {/* Spacer for fixed navbar */}
         <div className="absolute top-0 left-0 right-0 h-20 z-0"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 py-24 md:py-32 lg:py-40">
           <div className="fade-in-up space-y-12">
-            {/* Main Heading */}
             <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-tight tracking-tight">
               <span className="block text-white">
                 Turning <span className="bg-gradient-to-r from-red-500 via-red-400 to-red-600 bg-clip-text text-transparent inline-block animate-rotate-vision">Vision</span>
@@ -189,17 +207,14 @@ const LandingPage = () => {
                 Into <span className="bg-gradient-to-r from-red-500 via-red-400 to-red-600 bg-clip-text text-transparent">Reality</span>
               </span>
             </h1>
-
-            {/* Subtitle */}
             <p className="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed font-light">
               We partner with ambitious startups and established businesses to scale through 
               cutting-edge technology, AI automation, and strategic innovation.
             </p>
           </div>
 
-          {/* Hero Image - Enhanced & Memorable */}
           <div className="mt-20 mb-20 md:mt-24 md:mb-24 lg:mt-32 lg:mb-32 fade-in-up relative overflow-hidden">
-            {/* Ambient background effects */}
+            {/* Abstract Background Elements */}
             <div className="absolute inset-0 pointer-events-none">
               <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-red-500/3 rounded-full blur-3xl animate-pulse"></div>
               <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-500/3 rounded-full blur-3xl animate-pulse delay-1000"></div>
@@ -208,80 +223,23 @@ const LandingPage = () => {
 
             <div className="max-w-7xl mx-auto px-4 relative z-10">
               <div className="relative group cursor-pointer">
-                {/* Dynamic multi-layer glow system */}
+                {/* Glow Effects */}
                 <div className="absolute -inset-12 bg-gradient-to-r from-red-500/15 via-red-600/8 to-red-500/15 rounded-[4rem] blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-1200 animate-pulse"></div>
                 <div className="absolute -inset-8 bg-gradient-to-br from-red-500/20 via-transparent to-blue-500/15 rounded-[3.5rem] blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-900"></div>
-                <div className="absolute -inset-4 bg-gradient-to-tr from-transparent via-red-400/25 to-transparent rounded-[3rem] blur-xl opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
                 
-                {/* Main hero container with premium styling */}
+                {/* Hero Image Container */}
                 <div className="relative overflow-hidden rounded-[2.5rem] md:rounded-[3rem] lg:rounded-[3.5rem] border-2 border-gray-800/40 group-hover:border-red-500/60 transition-all duration-800 shadow-[0_35px_70px_-12px_rgba(0,0,0,0.9)] group-hover:shadow-[0_50px_100px_-12px_rgba(239,68,68,0.4)] backdrop-blur-sm">
-                  
-                  {/* Animated tech grid overlay */}
-                  <div className="absolute inset-0 opacity-[0.015] group-hover:opacity-[0.04] transition-opacity duration-1000">
-                    <div className="absolute inset-0 bg-[linear-gradient(rgba(239,68,68,0.4)_1px,transparent_1px),linear-gradient(90deg,rgba(239,68,68,0.4)_1px,transparent_1px)] bg-[size:40px_40px] animate-pulse"></div>
-                </div>
-                  
-                  {/* Dynamic scanline effects */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1200">
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-red-500/8 to-transparent transform -skew-x-12 animate-pulse"></div>
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-red-500/5 to-transparent transform skew-y-1 animate-pulse delay-500"></div>
-              </div>
-              
                   <img 
                     src={heroImage} 
                     alt="Scalable Technology Solutions - Innovation in Action"
                     className="w-full h-80 md:h-96 lg:h-[30rem] xl:h-[34rem] object-cover group-hover:scale-110 transition-transform duration-1200 ease-out filter group-hover:brightness-110 group-hover:contrast-110 group-hover:saturate-110"
                   />
-                  
-                  {/* Sophisticated multi-layer overlays */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent group-hover:from-black/70 transition-all duration-800"></div>
-                  <div className="absolute inset-0 bg-gradient-to-br from-red-900/8 via-transparent to-blue-900/8 opacity-0 group-hover:opacity-100 transition-opacity duration-800"></div>
-                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-red-500/3 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
-                  <div className="absolute inset-0 bg-radial-gradient from-transparent via-red-500/2 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1200"></div>
-                  
-                  {/* Enhanced floating elements */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-1200">
-                    {/* Large floating orbs */}
-                    <div className="absolute top-1/4 left-1/5 w-4 h-4 bg-gradient-to-r from-red-400/80 to-red-600/80 rounded-full animate-bounce shadow-lg shadow-red-500/50" style={{animationDelay: '0s', animationDuration: '3s'}}></div>
-                    <div className="absolute top-1/3 right-1/4 w-3 h-3 bg-gradient-to-r from-blue-400/80 to-blue-600/80 rounded-full animate-bounce shadow-lg shadow-blue-500/50" style={{animationDelay: '0.5s', animationDuration: '2.5s'}}></div>
-                    <div className="absolute bottom-1/3 left-1/2 w-3.5 h-3.5 bg-gradient-to-r from-green-400/80 to-green-600/80 rounded-full animate-bounce shadow-lg shadow-green-500/50" style={{animationDelay: '1s', animationDuration: '2.8s'}}></div>
-                    <div className="absolute top-2/3 right-1/3 w-2.5 h-2.5 bg-gradient-to-r from-purple-400/80 to-purple-600/80 rounded-full animate-bounce shadow-lg shadow-purple-500/50" style={{animationDelay: '1.5s', animationDuration: '3.2s'}}></div>
-                    
-                    {/* Geometric shapes */}
-                    <div className="absolute top-1/2 left-1/6 w-3 h-3 bg-gradient-to-br from-red-400/60 to-red-600/60 rotate-45 animate-pulse shadow-md" style={{animationDelay: '0.3s'}}></div>
-                    <div className="absolute bottom-1/4 right-1/5 w-2.5 h-2.5 bg-gradient-to-br from-blue-400/60 to-blue-600/60 rotate-45 animate-pulse shadow-md" style={{animationDelay: '0.8s'}}></div>
-                    
-                    {/* Subtle sparkles */}
-                    <div className="absolute top-1/5 right-1/6 w-1 h-1 bg-white/80 rounded-full animate-ping" style={{animationDelay: '2s'}}></div>
-                    <div className="absolute bottom-1/5 left-1/3 w-1 h-1 bg-white/80 rounded-full animate-ping" style={{animationDelay: '2.5s'}}></div>
-                </div>
-                  
-                  
-              
-                  {/* Premium corner accents */}
-                  <div className="absolute top-0 right-0 w-56 h-56 bg-gradient-to-br from-red-500/12 via-red-400/6 to-transparent rounded-[3.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-800"></div>
-                  <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-blue-500/12 via-blue-400/6 to-transparent rounded-[3.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-800"></div>
-                  
-                  {/* Animated premium border */}
-                  <div className="absolute inset-0 rounded-[2.5rem] md:rounded-[3rem] lg:rounded-[3.5rem] ring-2 ring-inset ring-white/5 group-hover:ring-red-500/50 transition-all duration-800"></div>
-                  
-                  {/* Signature glow line */}
-                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-40 h-1 bg-gradient-to-r from-transparent via-red-500/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 animate-pulse shadow-lg shadow-red-500/50"></div>
-                  
-                  {/* Floating status indicators */}
-                  <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 delay-300">
-                    <div className="flex space-x-2">
-                      <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50"></div>
-                      <div className="w-3 h-3 bg-blue-400 rounded-full animate-pulse delay-300 shadow-lg shadow-blue-400/50"></div>
-                      <div className="w-3 h-3 bg-red-400 rounded-full animate-pulse delay-700 shadow-lg shadow-red-400/50"></div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Enhanced CTAs */}
           <div className="flex justify-center items-center mb-24 md:mb-32 fade-in-up">
             <button
               onClick={scrollToServices}
@@ -289,17 +247,12 @@ const LandingPage = () => {
             >
               <span>Get Started</span>
               <ArrowRight className="group-hover:translate-x-1 transition-transform duration-300" size={22} />
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-red-600/20 to-red-700/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
             </button>
           </div>
-
-
         </div>
-
-
       </section>
 
-      {/* Services Section */}
+      {/* ================= SERVICES SECTION (UPDATED) ================= */}
       <section id="services" className="py-24 md:py-32 lg:py-40 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900/50 to-black"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -316,21 +269,31 @@ const LandingPage = () => {
             {services.map((service, index) => (
               <div
                 key={index}
-                className="group relative bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm p-8 rounded-3xl border border-gray-800/50 hover:border-red-500/30 transition-all duration-500 cursor-pointer fade-in-up overflow-hidden"
+                onClick={() => setActiveService(index)}
+                className="group relative z-20 bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm p-8 rounded-3xl border border-gray-800/50 hover:border-red-500/30 transition-all duration-500 cursor-pointer fade-in-up overflow-hidden flex flex-col h-full"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <div className="relative z-10">
+                
+                <div className="relative z-10 flex-grow">
                   <div className="mb-6 p-3 bg-red-600/10 rounded-2xl w-fit group-hover:scale-110 group-hover:bg-red-600/20 transition-all duration-300">
                     {service.icon}
                   </div>
                   <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-red-400 transition-colors duration-300">
                     {service.title}
                   </h3>
-                  <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
+                  {/* line-clamp-3 prevents text from cutting off awkwardly */}
+                  <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300 line-clamp-3">
                     {service.description}
                   </p>
                 </div>
+
+                <div className="relative z-10 mt-6 pt-4 border-t border-gray-800 group-hover:border-red-500/20 transition-colors">
+                    <span className="text-sm text-red-500 font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-2">
+                      View Details &rarr;
+                    </span>
+                </div>
+                
                 <div className="absolute -bottom-2 -right-2 w-20 h-20 bg-red-600/5 rounded-full blur-xl group-hover:bg-red-600/10 transition-colors duration-500"></div>
               </div>
             ))}
@@ -343,13 +306,12 @@ const LandingPage = () => {
             >
               <span>Explore All Services</span>
               <ArrowRight className="group-hover:translate-x-1 transition-transform duration-300" size={22} />
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-red-600/20 to-red-700/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
             </button>
           </div>
         </div>
       </section>
 
-      {/* Real Impact Section */}
+      {/* ================= IMPACT SECTION ================= */}
       <section className="py-24 md:py-32 lg:py-40 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900"></div>
         <div className="absolute top-20 left-20 w-72 h-72 bg-red-600/10 rounded-full blur-3xl"></div>
@@ -406,13 +368,12 @@ const LandingPage = () => {
               className="group relative bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-12 py-6 rounded-2xl text-lg font-semibold transition-all duration-300 shadow-2xl shadow-red-600/25 hover:shadow-red-600/40 hover:scale-105"
             >
               Start Your Transformation
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-red-600/20 to-red-700/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
             </button>
           </div>
         </div>
       </section>
 
-      {/* Portfolio Preview Section */}
+      {/* ================= PORTFOLIO SECTION ================= */}
       <section id="portfolio" className="py-24 md:py-32 lg:py-40 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900/50 to-black"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -485,13 +446,12 @@ const LandingPage = () => {
             >
               <span>View All Projects & See The Magic</span>
               <ArrowRight className="group-hover:translate-x-1 transition-transform duration-300" size={22} />
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-red-600/20 to-red-700/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
             </button>
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
+      {/* ================= TESTIMONIALS SECTION ================= */}
       <section className="py-24 md:py-32 lg:py-40 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900"></div>
         <div className="absolute top-40 left-40 w-96 h-96 bg-blue-600/8 rounded-full blur-3xl animate-pulse"></div>
@@ -536,7 +496,6 @@ const LandingPage = () => {
               </div>
             </div>
 
-            {/* Navigation */}
             <button
               onClick={goToPrevious}
               className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-red-600 rounded-full p-3 transition-colors duration-300 hover:glow-red"
@@ -551,7 +510,6 @@ const LandingPage = () => {
               <ChevronRight size={24} />
             </button>
 
-            {/* Dots */}
             <div className="flex justify-center space-x-2 mt-8">
               {testimonials.map((_, index) => (
                 <button
@@ -567,7 +525,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Contact Section */}
+      {/* ================= CONTACT SECTION ================= */}
       <section id="contact" className="py-24 md:py-32 lg:py-40 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900/50 to-black"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -581,7 +539,6 @@ const LandingPage = () => {
           </div>
 
           <div className="grid lg:grid-cols-2 gap-16">
-            {/* Contact Info */}
             <div className="fade-in-up">
               <h3 className="text-2xl font-bold mb-8">Get In Touch</h3>
               
@@ -628,7 +585,6 @@ const LandingPage = () => {
               </div>
             </div>
 
-            {/* Contact Form */}
             <div className="fade-in-up">
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
@@ -692,6 +648,54 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* ================= SERVICE MODAL ================= */}
+      {activeService !== null && services[activeService] && (
+        <div 
+          className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-[9999] p-4"
+          onClick={() => setActiveService(null)}
+        >
+          <div 
+            className="bg-[#0a0a0a] rounded-3xl border border-gray-800 w-full max-w-4xl relative overflow-hidden shadow-2xl animate-fade-in-up flex flex-col md:flex-row"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="absolute top-4 right-4 z-20 bg-black/50 hover:bg-red-600 text-white p-2 rounded-full transition-all duration-300 backdrop-blur-sm"
+              onClick={() => setActiveService(null)}
+            >
+              <X size={20} />
+            </button>
+
+            {/* Left Side: Image */}
+            <div className="w-full md:w-1/2 h-64 md:h-auto relative">
+              <img 
+                src={services[activeService].image} 
+                alt={services[activeService].title} 
+                className="w-full h-full object-cover" 
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] md:bg-gradient-to-r md:from-transparent md:to-[#0a0a0a] opacity-90"></div>
+            </div>
+
+            {/* Right Side: Content */}
+            <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+              <div className="mb-6 text-red-500">
+                {services[activeService].icon}
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+                {services[activeService].title}
+              </h2>
+              <p className="text-gray-300 text-lg leading-relaxed mb-8">
+                {services[activeService].description}
+              </p>
+              <button 
+                className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-full font-medium transition-colors duration-300 w-fit"
+                onClick={() => setActiveService(null)}
+              >
+                Close Details
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );
