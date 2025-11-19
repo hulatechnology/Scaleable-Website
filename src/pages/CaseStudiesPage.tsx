@@ -49,7 +49,7 @@ const CASE_STUDIES: CaseStudy[] = [
     title: 'Learning & Development Platform for QS Professionals',
     icon: <LayoutTemplate size={32} className="text-red-500" />,
     image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80', 
-    website: 'https://factor6.com', 
+    website: 'https://www.factor6.co.za/Profile-2/', 
     overview: "Factor6, a team of seasoned professionals in the Quantity Surveying industry, identified a critical obstacle: learners were overwhelmed by an intensive curriculum of 12 subjects across just three years. The learning material was scattered, and students were losing valuable time.",
     challenge: [
       "Students were struggling to manage a high-volume, multi-year learning load.",
@@ -77,7 +77,7 @@ const CASE_STUDIES: CaseStudy[] = [
     title: 'Ruby & Lucy: AI for Personalised Learning',
     icon: <Cpu size={32} className="text-red-500" />,
     image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80',
-    website: 'https://hula.tech',
+    website: 'https://hulatechnology.com/',
     overview: "Hula set out to build two high-impact AI products: Ruby (an AI tutor) and Lucy (an AI teacher assistant). However, development challenges had stalled progress. The product codebase had become fragmented, unstable, and lacked the scalability needed for growth.",
     challenge: [
       "Codebase was fragmented and unstable due to multiple development handovers.",
@@ -105,7 +105,7 @@ const CASE_STUDIES: CaseStudy[] = [
     title: 'Digital Transformation for Modern Retail',
     icon: <ShoppingBag size={32} className="text-red-500" />,
     image: 'https://images.unsplash.com/photo-1550989460-0adf9ea622e2?auto=format&fit=crop&w=1200&q=80',
-    website: 'https://fairfieldmeats.com',
+    website: 'https://fairfieldmeats.co.za/',
     overview: "Fairfield Meat Centre faced rising operational pressures. Their ecommerce setup, built on Shopify and plugins, had become slow and costly. Manual workflows led to fulfillment delays and unreliable customer experiences.",
     challenge: [
       "High platform fees and payment processing costs eating into margins.",
@@ -132,8 +132,8 @@ const CASE_STUDIES: CaseStudy[] = [
     industry: 'Government / Public Sector',
     title: 'AI-Enabled Career Pathways for Learners',
     icon: <GraduationCap size={32} className="text-red-500" />,
-    image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80',
-    website: 'https://wced.gov.za',
+    image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80',
+    website: 'https://careerclubs.co.za/',
     overview: "The Western Cape Government sought partners to solve youth unemployment. Scalable partnered with them to support Career Clubs, an initiative across 230+ schools aimed at giving learners exposure to real-world careers.",
     challenge: [
       "Limited access to structured, accurate career guidance for learners.",
