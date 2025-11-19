@@ -21,7 +21,7 @@ const Navbar = () => {
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
     { name: 'Services', path: '/services' },
-    { name: 'Portfolio', path: '/portfolio' },
+    { name: 'Case Studies', path: '/case-studies' },
     { name: 'Contact', path: '/contact' }
   ];
 
@@ -33,7 +33,7 @@ const Navbar = () => {
     <nav className={`fixed w-full z-50 transition-all duration-300 ${
       scrolled ? 'bg-black/95 backdrop-blur-sm' : 'bg-transparent'
     }`} style={{
-      boxShadow: '0 4px 20px rgba(220, 38, 38, 0.3), 0 2px 10px rgba(220, 38, 38, 0.2)'
+      boxShadow: scrolled ? '0 4px 20px rgba(220, 38, 38, 0.3), 0 2px 10px rgba(220, 38, 38, 0.2)' : 'none'
     }}>
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         <div className="flex items-center justify-between h-20">
@@ -60,8 +60,10 @@ const Navbar = () => {
                 <Link
                   key={item.name}
                   to={item.path}
-                  className={`hover:text-white hover:text-shadow-glow transition-all duration-300 px-4 py-3 text-lg font-semibold ${
-                    isActive(item.path) ? 'text-red-500' : 'text-gray-300'
+                  className={`whitespace-nowrap hover:text-white transition-all duration-300 px-4 py-3 text-lg font-semibold ${
+                    isActive(item.path) 
+                      ? 'text-red-500' 
+                      : 'text-gray-300'
                   }`}
                 >
                   {item.name}
@@ -74,7 +76,7 @@ const Navbar = () => {
           <div className="hidden md:block">
             <Link
               to="/contact"
-              className="bg-red-600 hover:bg-red-700 text-white px-10 py-4 rounded-full text-base font-semibold transition-all duration-300 hover:glow-red pulse-glow inline-block shadow-lg"
+              className="bg-red-600 hover:bg-red-700 text-white px-10 py-4 rounded-full text-base font-semibold transition-all duration-300 hover:glow-red pulse-glow inline-block shadow-lg whitespace-nowrap"
             >
               Get Started
             </Link>
@@ -111,7 +113,7 @@ const Navbar = () => {
             <Link
               to="/contact"
               onClick={() => setIsOpen(false)}
-              className="bg-red-600 hover:bg-red-700 text-white block px-4 py-3 rounded-md text-lg font-semibold mt-4"
+              className="bg-red-600 hover:bg-red-700 text-white block px-4 py-3 rounded-md text-lg font-semibold mt-4 text-center"
             >
               Get Started
             </Link>

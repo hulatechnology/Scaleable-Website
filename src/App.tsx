@@ -2,7 +2,8 @@ import { FC } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import { LandingPage, AboutPage, ServicesPage, PortfolioPage, ContactPage } from './pages';
+// Update the import below (assuming you exported it from pages/index.ts)
+import { LandingPage, AboutPage, ServicesPage, CaseStudiesPage, ContactPage } from './pages';
 
 const App: FC = () => {
   return (
@@ -14,7 +15,10 @@ const App: FC = () => {
             <Route path="/" element={<LandingPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/services" element={<ServicesPage />} />
-            <Route path="/portfolio" element={<PortfolioPage />} />
+            
+            {/* Updated Route Path and Component */}
+            <Route path="/case-studies" element={<CaseStudiesPage />} />
+            
             <Route path="/contact" element={<ContactPage />} />
           </Routes>
         </main>
