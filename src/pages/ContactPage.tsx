@@ -55,7 +55,7 @@ const ContactPage = () => {
                   </div>
                   <div>
                     <h4 className="font-semibold mb-1 text-white">Email Us</h4>
-                    <p className="text-gray-300">hello@scalable.tech</p>
+                    <p className="text-gray-300">info@hulatechnology.com</p>
                     <p className="text-gray-400 text-sm">We'll respond within 24 hours</p>
                   </div>
                 </div>

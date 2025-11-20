@@ -63,16 +63,51 @@ const Footer = () => {
           <div className="lg:col-span-2 lg:pl-8">
             <h3 className="text-white font-bold text-xl mb-6">Navigation</h3>
             <ul className="space-y-4">
-              {['Home', 'Services', 'Our Work', 'Discuss a Project'].map((item) => (
-                <li key={item}>
+                
+                {['Home',].map((item) => (
+                <li key={item.toLowerCase().replace(/\s+/g, '-')}>
                   <a
-                    href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
+                    href="/"
                     className="text-white/90 hover:text-white text-base transition-colors duration-200"
                   >
                     {item}
                   </a>
                 </li>
               ))}
+
+              {['Services',].map((item) => (
+                <li key={item.toLowerCase().replace(/\s+/g, '-')}>
+                  <a
+                    href="services"
+                    className="text-white/90 hover:text-white text-base transition-colors duration-200"
+                  >
+                    {item}
+                  </a>
+                </li>
+              ))}
+
+              {['Case Studies',].map((item) => (
+                <li key={item.toLowerCase().replace(/\s+/g, '-')}>
+                  <a
+                    href="case-studies"
+                    className="text-white/90 hover:text-white text-base transition-colors duration-200"
+                  >
+                    {item}
+                  </a>
+                </li>
+              ))}
+
+              {['Discuss a Project',].map((item) => (
+                <li key={item.toLowerCase().replace(/\s+/g, '-')}>
+                  <a
+                    href="contact"
+                    className="text-white/90 hover:text-white text-base transition-colors duration-200"
+                  >
+                    {item}
+                  </a>
+                </li>
+              ))}
+
             </ul>
           </div>
 
@@ -90,7 +125,7 @@ const Footer = () => {
               ].map((item) => (
                 <li key={item}>
                   <a
-                    href="#"
+                    href="services"
                     className="text-white/90 hover:text-white text-base transition-colors duration-200"
                   >
                     {item}
@@ -102,7 +137,7 @@ const Footer = () => {
 
           {/* COLUMN 4: Our Work (Spans 3 cols) */}
           <div className="lg:col-span-3">
-            <h3 className="text-white font-bold text-xl mb-6">Our Work</h3>
+            <h3 className="text-white font-bold text-xl mb-6">Case Studies</h3>
             <ul className="space-y-4">
               {[
                 'Education',
@@ -112,7 +147,7 @@ const Footer = () => {
               ].map((item) => (
                 <li key={item}>
                   <a
-                    href="#"
+                    href="case-studies"
                     className="text-white/90 hover:text-white text-base transition-colors duration-200"
                   >
                     {item}
