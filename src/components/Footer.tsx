@@ -1,10 +1,10 @@
 import { 
- 
   Linkedin, 
   Facebook,
-
   Code
 } from 'lucide-react';
+// 1. IMPORT LINK FROM REACT ROUTER
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -29,85 +29,55 @@ const Footer = () => {
               innovation through modern, data-informed solutions.
             </p>
             
-            {/* Social Icons - Boxed Style */}
+            {/* Social Icons (Keep as <a> tags because they are external links) */}
             <div className="flex space-x-4 pt-4">
-              {[Linkedin].map((Icon, idx) => (
-                <a
-                  key={idx}
-                  href="https://www.linkedin.com/company/hula-technology/?viewAsMember=true"
-                  className="border border-white/30 p-2.5 hover:bg-white hover:text-[#D92626] transition-all duration-300"
-                  aria-label="Social Link"
-                >
-                  <Icon size={20} strokeWidth={1.5} />
-                </a>
-              ))}
+              <a
+                href="https://www.linkedin.com/company/hula-technology/?viewAsMember=true"
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="border border-white/30 p-2.5 hover:bg-white hover:text-[#D92626] transition-all duration-300"
+                aria-label="LinkedIn"
+              >
+                <Linkedin size={20} strokeWidth={1.5} />
+              </a>
               
-              {[Facebook,].map((Icon, idx) => (
-                <a
-                  key={idx}
-                  href="https://www.facebook.com/profile.php?id=61551471058333"
-                  className="border border-white/30 p-2.5 hover:bg-white hover:text-[#D92626] transition-all duration-300"
-                  aria-label="Social Link"
-                >
-                  <Icon size={20} strokeWidth={1.5} />
-                </a>
-              ))}
-
+              <a
+                href="https://www.facebook.com/profile.php?id=61551471058333"
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="border border-white/30 p-2.5 hover:bg-white hover:text-[#D92626] transition-all duration-300"
+                aria-label="Facebook"
+              >
+                <Facebook size={20} strokeWidth={1.5} />
+              </a>
             </div>
-
           </div>
-
-          
 
           {/* COLUMN 2: Navigation (Spans 2 cols) */}
           <div className="lg:col-span-2 lg:pl-8">
             <h3 className="text-white font-bold text-xl mb-6">Navigation</h3>
             <ul className="space-y-4">
-                
-                {['Home',].map((item) => (
-                <li key={item.toLowerCase().replace(/\s+/g, '-')}>
-                  <a
-                    href="/"
-                    className="text-white/90 hover:text-white text-base transition-colors duration-200"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
-
-              {['Services',].map((item) => (
-                <li key={item.toLowerCase().replace(/\s+/g, '-')}>
-                  <a
-                    href="services"
-                    className="text-white/90 hover:text-white text-base transition-colors duration-200"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
-
-              {['Case Studies',].map((item) => (
-                <li key={item.toLowerCase().replace(/\s+/g, '-')}>
-                  <a
-                    href="case-studies"
-                    className="text-white/90 hover:text-white text-base transition-colors duration-200"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
-
-              {['Discuss a Project',].map((item) => (
-                <li key={item.toLowerCase().replace(/\s+/g, '-')}>
-                  <a
-                    href="contact"
-                    className="text-white/90 hover:text-white text-base transition-colors duration-200"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
-
+              {/* Switched to <Link> to prevent 404 errors */}
+              <li>
+                <Link to="/" className="text-white/90 hover:text-white text-base transition-colors duration-200">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" className="text-white/90 hover:text-white text-base transition-colors duration-200">
+                  Services
+                </Link>
+              </li>
+              <li>
+                <Link to="/case-studies" className="text-white/90 hover:text-white text-base transition-colors duration-200">
+                  Case Studies
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="text-white/90 hover:text-white text-base transition-colors duration-200">
+                  Discuss a Project
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -124,18 +94,19 @@ const Footer = () => {
                 'Fractional Services'
               ].map((item) => (
                 <li key={item}>
-                  <a
-                    href="services"
+                  {/* Link to services page */}
+                  <Link
+                    to="/services"
                     className="text-white/90 hover:text-white text-base transition-colors duration-200"
                   >
                     {item}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* COLUMN 4: Our Work (Spans 3 cols) */}
+          {/* COLUMN 4: Case Studies (Spans 3 cols) */}
           <div className="lg:col-span-3">
             <h3 className="text-white font-bold text-xl mb-6">Case Studies</h3>
             <ul className="space-y-4">
@@ -146,19 +117,20 @@ const Footer = () => {
                 'Retail'
               ].map((item) => (
                 <li key={item}>
-                  <a
-                    href="case-studies"
+                  {/* Link to case studies page */}
+                  <Link
+                    to="/case-studies"
                     className="text-white/90 hover:text-white text-base transition-colors duration-200"
                   >
                     {item}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
         </div>
 
-        {/* Bottom Bar - Centered Copyright */}
+        {/* Bottom Bar */}
         <div className="pt-8 text-center">
           <p className="text-white font-medium text-sm">
             Scalable Technology © {currentYear}.
