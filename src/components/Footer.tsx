@@ -1,8 +1,8 @@
 import { 
-  Twitter, 
+ 
   Linkedin, 
   Facebook,
-  Instagram,
+
   Code
 } from 'lucide-react';
 
@@ -31,18 +31,33 @@ const Footer = () => {
             
             {/* Social Icons - Boxed Style */}
             <div className="flex space-x-4 pt-4">
-              {[Facebook, Twitter, Linkedin, Instagram].map((Icon, idx) => (
+              {[Linkedin].map((Icon, idx) => (
                 <a
                   key={idx}
-                  href="#"
+                  href="https://www.linkedin.com/company/hula-technology/?viewAsMember=true"
                   className="border border-white/30 p-2.5 hover:bg-white hover:text-[#D92626] transition-all duration-300"
                   aria-label="Social Link"
                 >
                   <Icon size={20} strokeWidth={1.5} />
                 </a>
               ))}
+              
+              {[Facebook,].map((Icon, idx) => (
+                <a
+                  key={idx}
+                  href="https://www.facebook.com/profile.php?id=61551471058333"
+                  className="border border-white/30 p-2.5 hover:bg-white hover:text-[#D92626] transition-all duration-300"
+                  aria-label="Social Link"
+                >
+                  <Icon size={20} strokeWidth={1.5} />
+                </a>
+              ))}
+
             </div>
+
           </div>
+
+          
 
           {/* COLUMN 2: Navigation (Spans 2 cols) */}
           <div className="lg:col-span-2 lg:pl-8">
