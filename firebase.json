@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "target": "scalable-production",
     "public": "dist",
     "ignore": [
       "firebase.json",

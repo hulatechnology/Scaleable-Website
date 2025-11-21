@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "hula-production"
-  }
+  },
+  "targets": {
+    "hula-production": {
+      "hosting": {
+        "scalable-website": [
+          "scalable-production"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
