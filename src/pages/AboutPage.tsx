@@ -1,4 +1,3 @@
-
 import { Rocket, Brain, Users2, Target } from 'lucide-react';
 import PageLayout from '../components/PageLayout';
 
@@ -47,25 +46,8 @@ const AboutPage = () => {
             to full-scale implementation, we're with you every step of the way.
           </p>
           
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-            <div className="text-center bg-black/40 rounded-xl p-4 border border-gray-800">
-              <div className="text-3xl font-bold text-red-500 mb-1">5+</div>
-              <div className="text-sm text-gray-400">Years Experience</div>
-            </div>
-            <div className="text-center bg-black/40 rounded-xl p-4 border border-gray-800">
-              <div className="text-3xl font-bold text-red-500 mb-1">50+</div>
-              <div className="text-sm text-gray-400">Projects Delivered</div>
-            </div>
-            <div className="text-center bg-black/40 rounded-xl p-4 border border-gray-800">
-              <div className="text-3xl font-bold text-red-500 mb-1">25+</div>
-              <div className="text-sm text-gray-400">Team Members</div>
-            </div>
-            <div className="text-center bg-black/40 rounded-xl p-4 border border-gray-800">
-              <div className="text-3xl font-bold text-red-500 mb-1">15+</div>
-              <div className="text-sm text-gray-400">Countries Served</div>
-            </div>
-          </div>
+          {/* Stats Block Removed as requested. */}
+          
         </div>
 
         {/* Values Grid */}

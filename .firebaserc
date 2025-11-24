@@ -5,7 +5,7 @@
   "targets": {
     "hula-production": {
       "hosting": {
-        "scalable-website": [
+        "scalable-production": [
           "scalable-production"
         ]
       }

@@ -1,32 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  ArrowRight, 
-  TrendingUp, 
-  Target, 
-  Zap, 
-  ChevronLeft, 
-  ChevronRight, 
+import {
+  ArrowRight,
+  TrendingUp,
+  Target,
+  Zap,
+  ChevronLeft,
+  ChevronRight,
   Star,
-  Lightbulb, 
-  Code, 
-  Bot, 
-  BarChart3, 
-  Palette, 
+  Lightbulb,
+  Code,
+  Bot,
+  BarChart3,
+  Palette,
   Users,
   ExternalLink,
-  Github,
-  Phone,
-  Mail,
-  MapPin,
-  Send,
   X,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 // Asset imports
-import heroImage from '../assets/images/hero/Hero Image.png';
+import heroImage from '../assets/images/hero/campaign-creators.jpg';
 
-// --- INTERFACES (Fixes the TypeScript Error) ---
+// --- INTERFACES ---
+
 interface FeaturedStudy {
   id: string;
   client: string;
@@ -37,14 +33,105 @@ interface FeaturedStudy {
   tags: string[];
 }
 
-const LandingPage = () => {
-  // --- STATE ---
+interface TypedTextProps {
+  typingSpeed?: number;
+  delay?: number;
+}
+
+interface Testimonial {
+  name: string;
+  role: string;
+  company: string;
+  content: string;
+  rating: number;
+  image: string;
+}
+
+interface Service {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  image: string;
+}
+
+// --- NEW COMPONENT: Simple, Continuous Typewriter Effect (UNCHANGED) ---
+const FULL_TEXT = "Turning Vision Into Reality";
+
+const TypedText: React.FC<TypedTextProps> = ({ typingSpeed = 100, delay = 500 }) => {
+  const [displayedText, setDisplayedText] = useState('');
+  const [isTypingComplete, setIsTypingComplete] = useState(false);
+  const intervalRef = React.useRef<number | null>(null);
+
+  useEffect(() => {
+    if (isTypingComplete) return;
+
+    let i = 0;
+
+    const startTyping = () => {
+      if (intervalRef.current !== null) {
+        clearInterval(intervalRef.current);
+      }
+
+      const intervalId = setInterval(() => {
+        if (i < FULL_TEXT.length) {
+          setDisplayedText((prev) => prev + FULL_TEXT.charAt(i++));
+        } else {
+          clearInterval(intervalId);
+          setIsTypingComplete(true);
+        }
+      }, typingSpeed);
+
+      intervalRef.current = intervalId;
+    };
+
+    const delayTimer = setTimeout(startTyping, delay);
+
+    return () => {
+      clearTimeout(delayTimer);
+      if (intervalRef.current !== null) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [typingSpeed, delay, isTypingComplete]);
+
+  const parts = FULL_TEXT.split(' Into ');
+  const visionPart = parts.length > 0 ? parts[0].split(' ') : ['Turning', 'Vision'];
+  const realityPart = parts.length > 1 ? parts[1] : 'Reality';
+  const turning = visionPart.slice(0, -1).join(' ');
+  const vision = visionPart[visionPart.length - 1];
+
+  return (
+    <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-tight tracking-tight">
+      {isTypingComplete ? (
+        <>
+          <span className="block text-white">
+            {turning}{' '}
+            <span className="bg-gradient-to-r from-red-500 via-red-400 to-red-600 bg-clip-text text-transparent inline-block">
+              {vision}
+            </span>
+          </span>
+          <span className="block text-white">
+            Into <span className="bg-gradient-to-r from-red-500 via-red-400 to-red-600 bg-clip-text text-transparent">{realityPart}</span>
+          </span>
+        </>
+      ) : (
+        <span className="block text-white">
+          {displayedText}
+          <span className="inline-block w-1 h-14 md:h-20 ml-1 bg-red-500 align-text-bottom animate-blink"></span>
+        </span>
+      )}
+    </h1>
+  );
+};
+
+
+const LandingPage: React.FC = () => {
+  // --- STATE & DATA (UNCHANGED) ---
   const [activeService, setActiveService] = useState<number | null>(null);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // --- DATA: SERVICES ---
-  const services = [
+  const services: Service[] = [
     {
       icon: <Lightbulb className="text-red-500" size={32} />,
       title: "Product Strategy",
@@ -83,7 +170,6 @@ const LandingPage = () => {
     }
   ];
 
-  // --- DATA: FEATURED CASE STUDIES ---
   const featuredCaseStudies: FeaturedStudy[] = [
     {
       id: 'wced',
@@ -104,15 +190,6 @@ const LandingPage = () => {
       tags: ["EdTech", "Platform", "Video AI"]
     },
     {
-      id: 'hula',
-      client: 'Hula',
-      industry: 'AI / Education',
-      title: 'Ruby & Lucy: AI Tutors',
-      description: 'Rebuilding two high-impact AI products to create fast, reliable, and intelligent AI experiences for schools.',
-      image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80',
-      tags: ["AI Agents", "LLMs", "Mobile"]
-    },
-    {
       id: 'fairfield',
       client: 'Fairfield Meat Centre',
       industry: 'Retail',
@@ -123,8 +200,7 @@ const LandingPage = () => {
     }
   ];
 
-  // --- DATA: TESTIMONIALS ---
-  const testimonials = [
+  const testimonials: Testimonial[] = [
     {
       name: "Sarah Chen",
       role: "CEO, TechStart",
@@ -151,7 +227,7 @@ const LandingPage = () => {
     }
   ];
 
-  // --- EFFECTS ---
+  // --- EFFECTS & HANDLERS (UNCHANGED) ---
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setActiveService(null);
@@ -175,9 +251,8 @@ const LandingPage = () => {
     return () => clearInterval(interval);
   }, [testimonials.length]);
 
-  // --- HANDLERS ---
   const goToPrevious = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1
     );
   };
@@ -205,44 +280,40 @@ const LandingPage = () => {
 
   return (
     <div className="relative">
-      
-      {/* ================= HERO SECTION ================= */}
+
+      {/* ================= HERO SECTION (FIXED GAP + PADDING) ================= */}
       <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black"></div>
           <div className="absolute -top-40 -right-40 w-96 h-96 bg-red-600/8 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-600/8 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-600/8 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-red-600/5 rounded-full blur-2xl"></div>
         </div>
 
         <div className="absolute top-0 left-0 right-0 h-20 z-0"></div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 py-24 md:py-32 lg:py-40">
+        {/* 1. Reduced Padding: py-16 md:py-24 lg:py-28 -> py-16 md:py-20 lg:py-24 */}
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 py-16 md:py-20 lg:py-24">
           <div className="fade-in-up space-y-12">
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-tight tracking-tight">
-              <span className="block text-white">
-                Turning <span className="bg-gradient-to-r from-red-500 via-red-400 to-red-600 bg-clip-text text-transparent inline-block animate-rotate-vision">Vision</span>
-              </span>
-              <span className="block text-white">
-                Into <span className="bg-gradient-to-r from-red-500 via-red-400 to-red-600 bg-clip-text text-transparent">Reality</span>
-              </span>
-            </h1>
+            {/* 2. FIXED TYPESCRIPT ERROR: Removed 'text' prop */}
+            <TypedText typingSpeed={70} delay={500} />
+
             <p className="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed font-light">
-              We partner with ambitious startups and established businesses to scale through 
-              cutting-edge technology, AI automation, and strategic innovation.
+              We help ambitious startups and established businesses scale with custom software development, AI solutions, and strategic innovation.
             </p>
           </div>
 
-          <div className="mt-20 mb-20 md:mt-24 md:mb-24 lg:mt-32 lg:mb-32 fade-in-up relative overflow-hidden">
+          {/* 3. Reduced Margin Below Subheading/Above Image: mb-16/20/24 -> mb-8/10/12 */}
+          <div className="mt-16 mb-8 md:mt-20 md:mb-10 lg:mt-24 lg:mb-12 fade-in-up relative overflow-hidden">
             <div className="relative group cursor-pointer">
-              {/* Glow Effects */}
+              {/* Glow Effects (unchanged) */}
               <div className="absolute -inset-12 bg-gradient-to-r from-red-500/15 via-red-600/8 to-red-500/15 rounded-[4rem] blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-1200 animate-pulse"></div>
               <div className="absolute -inset-8 bg-gradient-to-br from-red-500/20 via-transparent to-blue-500/15 rounded-[3.5rem] blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-900"></div>
-              
-              {/* Hero Image Container */}
+
+              {/* Hero Image Container (unchanged) */}
               <div className="relative overflow-hidden rounded-[2.5rem] md:rounded-[3rem] lg:rounded-[3.5rem] border-2 border-gray-800/40 group-hover:border-red-500/60 transition-all duration-800 shadow-[0_35px_70px_-12px_rgba(0,0,0,0.9)] group-hover:shadow-[0_50px_100px_-12px_rgba(239,68,68,0.4)] backdrop-blur-sm">
-                <img 
-                  src={heroImage} 
+                <img
+                  src={heroImage}
                   alt="Scalable Technology Solutions - Innovation in Action"
                   className="w-full h-80 md:h-96 lg:h-[30rem] xl:h-[34rem] object-cover group-hover:scale-110 transition-transform duration-1200 ease-out filter group-hover:brightness-110 group-hover:contrast-110 group-hover:saturate-110"
                 />
@@ -251,7 +322,8 @@ const LandingPage = () => {
             </div>
           </div>
 
-          <div className="flex justify-center items-center mb-24 md:mb-32 fade-in-up">
+          {/* 4. Removed Bottom Margin on Button Container: mb-16 md:mb-20 -> mb-0 */}
+          <div className="flex justify-center items-center mb-0 fade-in-up">
             <button
               onClick={scrollToServices}
               className="group relative bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-10 py-5 rounded-2xl text-lg font-semibold transition-all duration-300 shadow-2xl shadow-red-600/25 hover:shadow-red-600/40 hover:scale-105 flex items-center space-x-3"
@@ -263,11 +335,13 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* ================= SERVICES SECTION ================= */}
-      <section id="services" className="py-24 md:py-32 lg:py-40 relative">
+      {/* ================= SERVICES SECTION (MODIFIED PADDING) ================= */}
+      {/* Reduced padding is kept here for overall compactness */}
+      <section id="services" className="py-16 md:py-20 lg:py-24 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900/50 to-black"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-20 fade-in-up">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* REDUCED MARGIN BELOW HEADING: mb-20 -> mb-16 */}
+          <div className="text-center mb-16 fade-in-up">
             <h2 className="text-5xl md:text-6xl font-bold mb-6">
               Our <span className="bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-transparent">Services</span>
             </h2>
@@ -276,7 +350,8 @@ const LandingPage = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          {/* REDUCED MARGIN BELOW GRID: mb-16 -> mb-12 */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             {services.map((service, index) => (
               <div
                 key={index}
@@ -285,7 +360,7 @@ const LandingPage = () => {
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-red-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                
+
                 <div className="relative z-10 flex-grow">
                   <div className="mb-6 p-3 bg-red-600/10 rounded-2xl w-fit group-hover:scale-110 group-hover:bg-red-600/20 transition-all duration-300">
                     {service.icon}
@@ -299,9 +374,9 @@ const LandingPage = () => {
                 </div>
 
                 <div className="relative z-10 mt-6 pt-4 border-t border-gray-800 group-hover:border-red-500/20 transition-colors">
-                    <span className="text-sm text-red-500 font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-2">
-                      View Details &rarr;
-                    </span>
+                  <span className="text-sm text-red-500 font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-2">
+                    View Details &rarr;
+                  </span>
                 </div>
                 <div className="absolute -bottom-2 -right-2 w-20 h-20 bg-red-600/5 rounded-full blur-xl group-hover:bg-red-600/10 transition-colors duration-500"></div>
               </div>
@@ -320,14 +395,16 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* ================= IMPACT SECTION ================= */}
-      <section className="py-24 md:py-32 lg:py-40 relative overflow-hidden">
+      {/* ================= IMPACT SECTION (MODIFIED PADDING) ================= */}
+      {/* REDUCED VERTICAL PADDING: py-24 md:py-32 lg:py-40 -> py-16 md:py-20 lg:py-24 */}
+      <section className="py-16 md:py-20 lg:py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900"></div>
         <div className="absolute top-20 left-20 w-72 h-72 bg-red-600/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 right-20 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl"></div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-20 fade-in-up">
+
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* REDUCED MARGIN BELOW HEADING: mb-20 -> mb-16 */}
+          <div className="text-center mb-16 fade-in-up">
             <h2 className="text-5xl md:text-6xl font-bold mb-6">
               Real <span className="bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-transparent">Impact</span>
             </h2>
@@ -336,8 +413,9 @@ const LandingPage = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-12 mb-20">
-            {/* Impact Grid */}
+          {/* REDUCED MARGIN BELOW GRID: mb-20 -> mb-12 */}
+          <div className="grid md:grid-cols-3 gap-12 mb-12">
+            {/* Impact Grid (Internal margins unchanged) */}
             <div className="text-center group fade-in-up">
               <div className="relative mb-8 mx-auto w-24 h-24 bg-gradient-to-br from-red-600/20 to-red-500/10 rounded-3xl flex items-center justify-center group-hover:scale-110 transition-all duration-500 border border-red-500/20">
                 <TrendingUp className="text-red-400" size={40} />
@@ -372,11 +450,13 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* ================= FEATURED CASE STUDIES (UPDATED) ================= */}
-      <section id="case-studies" className="py-24 md:py-32 lg:py-40 relative">
+      {/* ================= FEATURED CASE STUDIES (MODIFIED PADDING) ================= */}
+      {/* REDUCED VERTICAL PADDING: py-24 md:py-32 lg:py-40 -> py-16 md:py-20 lg:py-24 */}
+      <section id="case-studies" className="py-16 md:py-20 lg:py-24 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900/50 to-black"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-20 fade-in-up">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* REDUCED MARGIN BELOW HEADING: mb-20 -> mb-16 */}
+          <div className="text-center mb-16 fade-in-up">
             <h2 className="text-5xl md:text-6xl font-bold mb-6">
               Featured <span className="bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-transparent">Case Studies</span>
             </h2>
@@ -385,7 +465,8 @@ const LandingPage = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-10 mb-16">
+          {/* REDUCED MARGIN BELOW GRID: mb-16 -> mb-12 */}
+          <div className="grid md:grid-cols-2 gap-10 mb-12">
             {featuredCaseStudies.map((study, index) => (
               <div
                 key={study.id}
@@ -399,7 +480,7 @@ const LandingPage = () => {
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/60 transition-all duration-500"></div>
-                  
+
                   <div className="absolute bottom-4 left-4">
                     <span className="px-3 py-1 bg-red-600/80 backdrop-blur-sm text-white text-sm font-medium rounded-full">
                       {study.industry}
@@ -444,75 +525,35 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* ================= TESTIMONIALS & FOOTER CONTACT (Unchanged) ================= */}
-      <section className="py-24 md:py-32 lg:py-40 relative overflow-hidden">
-        {/* ... Testimonials Code matches previous version ... */}
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-900"></div>
-        <div className="absolute top-40 left-40 w-96 h-96 bg-blue-600/8 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-40 right-40 w-96 h-96 bg-red-600/8 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-20 fade-in-up">
-            <h2 className="text-5xl md:text-6xl font-bold mb-6">
-              Success <span className="bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-transparent">Stories</span>
-            </h2>
-            <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              Don't just take our word for it – hear from the leaders we've helped transform their businesses
-            </p>
-          </div>
+      {/* ================= CONTACT US (MODIFIED PADDING) ================= */}
+      {/* REDUCED VERTICAL PADDING: py-24 md:py-32 lg:py-40 -> py-16 md:py-20 lg:py-24 */}
+      <section id="contact-us" className="py-16 md:py-20 lg:py-24 relative bg-gradient-to-br from-black via-gray-900 to-black">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+          <h2 className="text-5xl md:text-6xl font-bold mb-6 fade-in-up">
+            Ready to <span className="bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-transparent">Scale?</span>
+          </h2>
+          {/* REDUCED MARGIN BELOW SUBHEADING: mb-12 -> mb-10 */}
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-10 fade-in-up" style={{ animationDelay: '0.2s' }}>
+            Let's discuss your vision. Reach out and start your transformation today.
+          </p>
 
-          <div className="relative max-w-5xl mx-auto">
-            <div className="bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-sm rounded-3xl p-12 md:p-16 border border-gray-800/50 fade-in-up shadow-2xl">
-              <div className="flex items-center justify-center mb-8">
-                {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
-                  <Star key={i} className="text-yellow-400 fill-current mx-1" size={28} />
-                ))}
-              </div>
-
-              <blockquote className="text-2xl md:text-3xl text-center mb-12 leading-relaxed text-gray-100 font-light">
-                "{testimonials[currentIndex].content}"
-              </blockquote>
-
-              <div className="flex items-center justify-center space-x-6">
-                <div className="relative">
-                  <img
-                    src={testimonials[currentIndex].image}
-                    alt={testimonials[currentIndex].name}
-                    className="w-20 h-20 rounded-2xl object-cover border-2 border-red-500/20"
-                  />
-                </div>
-                <div className="text-left">
-                  <div className="font-bold text-xl text-white mb-1">{testimonials[currentIndex].name}</div>
-                  <div className="text-red-400 font-semibold text-lg">{testimonials[currentIndex].role}</div>
-                  <div className="text-gray-400">{testimonials[currentIndex].company}</div>
-                </div>
-              </div>
-            </div>
-
-            <button
-              onClick={goToPrevious}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-red-600 rounded-full p-3 transition-colors duration-300"
-            >
-              <ChevronLeft size={24} />
-            </button>
-
-            <button
-              onClick={goToNext}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/10 hover:bg-red-600 rounded-full p-3 transition-colors duration-300"
-            >
-              <ChevronRight size={24} />
-            </button>
-          </div>
+          <Link
+            to="/contact" // Assuming you have a dedicated contact page
+            className="group relative bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-12 py-6 rounded-2xl text-xl font-semibold transition-all duration-300 shadow-2xl shadow-red-600/25 hover:shadow-red-600/40 hover:scale-105 inline-block fade-in-up"
+            style={{ animationDelay: '0.4s' }}
+          >
+            Get in Touch Now
+          </Link>
         </div>
       </section>
 
-      {/* ... Keep Service Modal Logic (Same as before) ... */}
+      {/* ================= SERVICE DETAIL MODAL (UNCHANGED) ================= */}
       {activeService !== null && services[activeService] && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-[9999] p-4"
           onClick={() => setActiveService(null)}
         >
-          <div 
+          <div
             className="bg-[#0a0a0a] rounded-3xl border border-gray-800 w-full max-w-4xl relative overflow-hidden shadow-2xl animate-fade-in-up flex flex-col md:flex-row"
             onClick={(e) => e.stopPropagation()}
           >
@@ -524,10 +565,10 @@ const LandingPage = () => {
             </button>
 
             <div className="w-full md:w-1/2 h-64 md:h-auto relative">
-              <img 
-                src={services[activeService].image} 
-                alt={services[activeService].title} 
-                className="w-full h-full object-cover" 
+              <img
+                src={services[activeService].image}
+                alt={services[activeService].title}
+                className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] md:bg-gradient-to-r md:from-transparent md:to-[#0a0a0a] opacity-90"></div>
             </div>
@@ -542,7 +583,7 @@ const LandingPage = () => {
               <p className="text-gray-300 text-lg leading-relaxed mb-8">
                 {services[activeService].description}
               </p>
-              <button 
+              <button
                 className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-full font-medium transition-colors duration-300 w-fit"
                 onClick={() => setActiveService(null)}
               >
