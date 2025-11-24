@@ -19,7 +19,7 @@ import {
 import { Link } from 'react-router-dom';
 
 // Asset imports
-import heroImage from '../assets/images/hero/campaign-creators.jpg';
+import heroImage from '../assets/images/hero/Hero Image.avif';
 
 // --- INTERFACES ---
 
@@ -281,7 +281,7 @@ const LandingPage: React.FC = () => {
   return (
     <div className="relative">
 
-      {/* ================= HERO SECTION (FIXED GAP + PADDING) ================= */}
+      {/* ================= HERO SECTION (IMAGE REMOVED) ================= */}
       <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black"></div>
@@ -292,10 +292,10 @@ const LandingPage: React.FC = () => {
 
         <div className="absolute top-0 left-0 right-0 h-20 z-0"></div>
 
-        {/* 1. Reduced Padding: py-16 md:py-24 lg:py-28 -> py-16 md:py-20 lg:py-24 */}
+        {/* 1. Content container */}
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 py-16 md:py-20 lg:py-24">
           <div className="fade-in-up space-y-12">
-            {/* 2. FIXED TYPESCRIPT ERROR: Removed 'text' prop */}
+            
             <TypedText typingSpeed={70} delay={500} />
 
             <p className="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed font-light">
@@ -303,14 +303,15 @@ const LandingPage: React.FC = () => {
             </p>
           </div>
 
-          {/* 3. Reduced Margin Below Subheading/Above Image: mb-16/20/24 -> mb-8/10/12 */}
-          <div className="mt-16 mb-8 md:mt-20 md:mb-10 lg:mt-24 lg:mb-12 fade-in-up relative overflow-hidden">
+          {/* ======================================================================
+            CLIENT REQUEST: COMMENTING OUT THE HERO IMAGE AND ITS CONTAINER ONLY 
+            ======================================================================
+          */}
+          {/* <div className="mt-16 mb-8 md:mt-20 md:mb-10 lg:mt-24 lg:mb-12 fade-in-up relative overflow-hidden">
             <div className="relative group cursor-pointer">
-              {/* Glow Effects (unchanged) */}
               <div className="absolute -inset-12 bg-gradient-to-r from-red-500/15 via-red-600/8 to-red-500/15 rounded-[4rem] blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-1200 animate-pulse"></div>
               <div className="absolute -inset-8 bg-gradient-to-br from-red-500/20 via-transparent to-blue-500/15 rounded-[3.5rem] blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-900"></div>
 
-              {/* Hero Image Container (unchanged) */}
               <div className="relative overflow-hidden rounded-[2.5rem] md:rounded-[3rem] lg:rounded-[3.5rem] border-2 border-gray-800/40 group-hover:border-red-500/60 transition-all duration-800 shadow-[0_35px_70px_-12px_rgba(0,0,0,0.9)] group-hover:shadow-[0_50px_100px_-12px_rgba(239,68,68,0.4)] backdrop-blur-sm">
                 <img
                   src={heroImage}
@@ -320,10 +321,10 @@ const LandingPage: React.FC = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent group-hover:from-black/70 transition-all duration-800"></div>
               </div>
             </div>
-          </div>
+          </div> */}
 
-          {/* 4. Removed Bottom Margin on Button Container: mb-16 md:mb-20 -> mb-0 */}
-          <div className="flex justify-center items-center mb-0 fade-in-up">
+          {/* 4. Button Container (kept) */}
+          <div className="flex justify-center items-center mb-0 fade-in-up mt-16">
             <button
               onClick={scrollToServices}
               className="group relative bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-10 py-5 rounded-2xl text-lg font-semibold transition-all duration-300 shadow-2xl shadow-red-600/25 hover:shadow-red-600/40 hover:scale-105 flex items-center space-x-3"
