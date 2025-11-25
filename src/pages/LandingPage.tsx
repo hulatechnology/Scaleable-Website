@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-// Asset imports
+// Asset imports // update 
 import heroImage from '../assets/images/hero/Hero Image.avif';
 
 // === 🔑 NEW IMPORTS FOR CASE STUDY IMAGES (Copied from CaseStudiesPage) 🔑 ===
