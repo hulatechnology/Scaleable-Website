@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// 1. Ensure useLocation and Link are imported (Removed unused useParams)
 import { useLocation, Link } from 'react-router-dom'; 
 import { 
   ArrowRight, 
@@ -16,13 +15,14 @@ import {
 } from 'lucide-react';
 import PageLayout from '../components/PageLayout'; 
 
-// === IMAGE IMPORTS ===
+// === DIRECT IMPORTS (Keep these if images are small, otherwise use URL strings) ===
+// Ensure these images are compressed (<200KB) for best performance
 import factor6Image from '../assets/images/case_studies/the-jopwell-collection-u5pAYGDWD54-unsplash.jpg';
 import hulaImage from '../assets/images/case_studies/Kids2.jpg';
 import fairfieldImage from '../assets/images/case_studies/Fairfields.webp';
 import wcedImage from '../assets/images/case_studies/Creating-Career-Pathways-Through-Training-Initiatives-2-scaled.webp';
 
-// --- 1. TYPE DEFINITIONS ---
+// --- TYPE DEFINITIONS ---
 interface Feature {
   title: string;
   desc: string;
@@ -47,7 +47,7 @@ interface CaseStudy {
   impact: string[];
 }
 
-// --- 2. DATA POPULATION ---
+// --- DATA POPULATION ---
 const CASE_STUDIES: CaseStudy[] = [
   {
     id: 'factor6',
@@ -165,34 +165,51 @@ const CASE_STUDIES: CaseStudy[] = [
 
 const CaseStudiesPage = () => {
   const [activeStudyId, setActiveStudyId] = useState<string | null>(null);
+  // 1. Add loading state to handle image processing gracefully
+  const [imagesLoaded, setImagesLoaded] = useState(false);
   const location = useLocation(); 
 
-  // CRITICAL FIX: Reads the state on load and sets the initial active study
+  // Preload images to prevent "pop-in" or freeze
   useEffect(() => {
-    const incomingId = location.state?.activeId; // Get ID from Footer link state
+    const imageUrls = CASE_STUDIES.map(study => study.image);
+    let loadedCount = 0;
+
+    imageUrls.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => {
+        loadedCount++;
+        if (loadedCount === imageUrls.length) {
+          setImagesLoaded(true);
+        }
+      };
+    });
+  }, []);
+
+  useEffect(() => {
+    const incomingId = location.state?.activeId; 
 
     if (incomingId) {
-      // If a specific ID was passed, set the state to immediately display the detail view
       setActiveStudyId(incomingId);
-      // Clear the state from the URL history (optional, but helps keep history clean)
       window.history.replaceState({}, document.title, location.pathname);
     } else {
-      // If no ID is passed, ensure we show the list view (default)
       setActiveStudyId(null);
     }
-
-    // Ensures page always loads at the top
     window.scrollTo(0, 0); 
-  }, [location.pathname, location.state]); // ADDED location.state dependency
+  }, [location.pathname, location.state]); 
 
-  // Find the active study
+  const handleBackToList = () => {
+    setActiveStudyId(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const activeStudy = CASE_STUDIES.find(s => s.id === activeStudyId);
 
   return (
     <PageLayout
       title={activeStudyId ? (
         <button 
-          onClick={() => setActiveStudyId(null)} 
+          onClick={handleBackToList} 
           className="group flex items-center gap-2 text-xl text-gray-400 hover:text-white transition-colors"
         >
           <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
@@ -206,18 +223,20 @@ const CaseStudiesPage = () => {
       
       {/* === VIEW 1: THE GRID (List of Case Studies) === */}
       {!activeStudyId && (
-        <div className="grid md:grid-cols-2 gap-8 mb-20 animate-fade-in-up">
+        <div className={`grid md:grid-cols-2 gap-8 mb-20 transition-opacity duration-500 ${imagesLoaded ? 'opacity-100' : 'opacity-0'}`}>
           {CASE_STUDIES.map((study) => (
             <div 
               key={study.id}
               onClick={() => setActiveStudyId(study.id)}
               className="group bg-[#0a0a0a] rounded-3xl overflow-hidden border border-gray-800 hover:border-red-500/50 transition-all duration-500 cursor-pointer hover:shadow-[0_0_30px_-5px_rgba(220,38,38,0.2)]"
             >
-              <div className="h-64 overflow-hidden relative">
+              <div className="h-64 overflow-hidden relative bg-gray-900"> {/* bg-gray-900 acts as placeholder color */}
                 <img 
                   src={study.image} 
                   alt={study.title} 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  loading="lazy"
+                  decoding="async" // Helps main thread performance
                 />
                 <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-gray-700 text-xs font-medium text-gray-300">
                   {study.industry}
@@ -234,7 +253,7 @@ const CaseStudiesPage = () => {
                   </span>
                 </div>
                 
-                <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-red-400 transition-colors">
+                <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-red-400 transition-colors">
                   {study.title} 
                 </h3>
                 <p className="text-gray-400 line-clamp-3 mb-6">
@@ -255,11 +274,12 @@ const CaseStudiesPage = () => {
         <div className="animate-fade-in-up">
           
           {/* HERO */}
-          <div className="relative h-[400px] rounded-3xl overflow-hidden mb-16 group">
+          <div className="relative h-[400px] rounded-3xl overflow-hidden mb-16 group bg-gray-900">
             <img 
               src={activeStudy.image} 
               alt={activeStudy.title} 
               className="w-full h-full object-cover"
+              loading="eager" // Load immediately for detail view
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-black/60 to-transparent"></div>
             <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
@@ -277,7 +297,8 @@ const CaseStudiesPage = () => {
             </div>
           </div>
 
-          {/* LAYOUT */}
+          {/* ... LAYOUT AND REST OF CONTENT ... */}
+          {/* (Rest of component remains unchanged) */}
           <div className="grid lg:grid-cols-12 gap-12 mb-20">
             
             {/* Left */}
@@ -351,7 +372,7 @@ const CaseStudiesPage = () => {
           {/* FOOTER */}
           <div className="border-t border-gray-800 pt-12 pb-8 flex flex-col md:flex-row items-center justify-between gap-6">
             <button 
-              onClick={() => setActiveStudyId(null)}
+              onClick={handleBackToList}
               className="text-gray-500 hover:text-white transition-colors flex items-center gap-2 font-medium"
             >
               <ArrowLeft size={20} /> Back to all case studies
@@ -361,7 +382,7 @@ const CaseStudiesPage = () => {
               href={activeStudy.website} 
               target="_blank" 
               rel="noopener noreferrer"
-              className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-full font-bold transition-colors flex items-center gap-2"
+              className="text-gray-500 hover:text-red-500 transition-colors flex items-center gap-2 font-medium"
             >
               Visit Client Website <ExternalLink size={18} />
             </a>
