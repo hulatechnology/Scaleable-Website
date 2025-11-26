@@ -1,10 +1,10 @@
 import { FC, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'; // Added useLocation
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'; // useLocation is now local
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import { LandingPage, AboutPage, ServicesPage, CaseStudiesPage, ContactPage } from './pages';
 
-// 1. Global Scroll-to-Top Component (Fixes Client Issue #2)
+// 1. Global Scroll-to-Top Component (Fixes Client Issue #2) - NO LONGER IMPORTED
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {
