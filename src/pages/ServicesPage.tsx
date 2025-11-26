@@ -1,49 +1,49 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom'; // Import useLocation
 import { 
-  Lightbulb, 
-  Code, 
-  Bot, 
-  BarChart3, 
-  Palette, 
-  Users,
-  X
+  Lightbulb, Code, Bot, BarChart3, Palette, Users, X 
 } from 'lucide-react';
-// Assuming PageLayout is in the same relative path you provided
 import PageLayout from '../components/PageLayout'; 
 
 const services = [
   {
+    // Added 'slug' to match the Footer links
+    slug: 'product-strategy',
     icon: <Lightbulb className="text-red-500" size={32} />,
     title: "Product Strategy",
     description: "Strategic roadmapping and market analysis to guide your product development and business growth. We help you define your MVP and scale.",
-    // Using Unsplash for instant visualization - replace with your local paths later if needed
     image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80'
   },
   {
+    slug: 'software-development',
     icon: <Code className="text-red-500" size={32} />,
     title: "Software Development",
     description: "Custom web and mobile applications built with cutting-edge technologies like React, Node.js, and Python to ensure scalability.",
     image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80'
   },
   {
+    slug: 'ai-automation',
     icon: <Bot className="text-red-500" size={32} />,
     title: "AI & Automation",
     description: "Intelligent automation solutions and AI-powered tools to streamline your business operations and reduce manual overhead.",
     image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=80'
   },
   {
+    slug: 'data-analytics',
     icon: <BarChart3 className="text-red-500" size={32} />,
     title: "Data & Analytics",
     description: "Transform your data into actionable insights with advanced analytics and visualization tools to make data-driven decisions.",
     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80'
   },
   {
+    slug: 'ui-ux-design',
     icon: <Palette className="text-red-500" size={32} />,
     title: "UI/UX Design",
     description: "Beautiful, user-centered designs that enhance engagement and drive conversions through intuitive interfaces.",
     image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=800&q=80'
   },
   {
+    slug: 'fractional-services',
     icon: <Users className="text-red-500" size={32} />,
     title: "Fractional Services",
     description: "Part-time C-level expertise to accelerate growth without full-time executive costs. Get a CTO or CPO on demand.",
@@ -53,6 +53,24 @@ const services = [
 
 const ServicesPage = () => {
   const [activeService, setActiveService] = useState<number | null>(null);
+  const location = useLocation(); // Initialize hook
+
+  // NEW: Check for incoming footer link state
+  useEffect(() => {
+    const incomingSlug = location.state?.activeServiceSlug;
+
+    if (incomingSlug) {
+      // Find the index of the service that matches the slug
+      const serviceIndex = services.findIndex(s => s.slug === incomingSlug);
+      if (serviceIndex !== -1) {
+        setActiveService(serviceIndex);
+        // Clean up state so it doesn't persist on refresh/back button
+        window.history.replaceState({}, document.title, location.pathname);
+      }
+    }
+    
+    window.scrollTo(0, 0);
+  }, [location]);
 
   // Close modal on Escape key
   useEffect(() => {
@@ -94,13 +112,11 @@ const ServicesPage = () => {
               <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-red-400 transition-colors duration-300">
                 {service.title}
               </h3>
-              {/* line-clamp-3 is better than slice() because it doesn't cut words in half */}
               <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300 line-clamp-3">
                 {service.description}
               </p>
             </div>
 
-            {/* "Read More" Indicator */}
             <div className="relative z-10 mt-6 pt-4 border-t border-gray-800 group-hover:border-red-500/20 transition-colors">
                 <span className="text-sm text-red-500 font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-2">
                   View Details &rarr;
@@ -116,14 +132,12 @@ const ServicesPage = () => {
       {activeService !== null && (
         <div 
           className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-[100] p-4"
-          onClick={() => setActiveService(null)} // Click outside to close
+          onClick={() => setActiveService(null)} 
         >
-          {/* Modal Content */}
           <div 
             className="bg-[#0a0a0a] rounded-3xl border border-gray-800 w-full max-w-4xl relative overflow-hidden shadow-2xl animate-fade-in-up flex flex-col md:flex-row"
-            onClick={(e) => e.stopPropagation()} // Prevent click from closing when clicking inside modal
+            onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
             <button
               className="absolute top-4 right-4 z-20 bg-black/50 hover:bg-red-600 text-white p-2 rounded-full transition-all duration-300 backdrop-blur-sm"
               onClick={() => setActiveService(null)}
@@ -131,7 +145,6 @@ const ServicesPage = () => {
               <X size={20} />
             </button>
 
-            {/* Left Side: Image */}
             <div className="w-full md:w-1/2 h-64 md:h-auto relative">
               <img 
                 src={services[activeService].image} 
@@ -141,7 +154,6 @@ const ServicesPage = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] md:bg-gradient-to-r md:from-transparent md:to-[#0a0a0a] opacity-90"></div>
             </div>
 
-            {/* Right Side: Content */}
             <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
               <div className="mb-6 text-red-500">
                 {services[activeService].icon}

@@ -14,16 +14,19 @@ const PageLayout: React.FC<PageLayoutProps> = ({
   className = "" 
 }) => {
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-black via-gray-900 to-black ${className}`}>
-      {/* Full screen content with proper navbar spacing */}
-      <div className="min-h-screen flex flex-col">
+    // FIX 1: Removed min-h-screen here. The content dictates the height now.
+    <div className={`bg-gradient-to-br from-black via-gray-900 to-black ${className}`}>
+      
+      {/* Container ensures proper navbar spacing */}
+      <div className="flex flex-col"> 
         {/* Spacer for fixed navbar */}
         <div className="h-20"></div>
         
-        {/* Main content area that uses full remaining screen */}
-        <div className="flex-grow flex flex-col justify-center py-16 md:py-20 lg:py-24">
+        {/* Main content wrapper */}
+        {/* FIX 2: Removed min-h-screen and justify-center. Content starts at the top and scrolls. */}
+        <div className="py-16 md:py-20 lg:py-24">
           <div className="container-spacing">
-            {/* Page Header */}
+            {/* Page Header (Kept fixed padding) */}
             <div className="text-center mb-20 md:mb-24 lg:mb-32 fade-in-up">
               <h1 className="heading-responsive mb-8">
                 {title}
@@ -33,8 +36,9 @@ const PageLayout: React.FC<PageLayoutProps> = ({
               </p>
             </div>
 
-            {/* Page Content */}
-            <div className="flex-grow">
+            {/* Page Content (Where your cards/forms go) */}
+            {/* FIX 3: Removed flex-grow here as content should stack, not stretch */}
+            <div> 
               {children}
             </div>
           </div>

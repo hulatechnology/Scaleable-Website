@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-// Ensure useLocation and Link are imported
-import { useLocation, Link, useParams } from 'react-router-dom'; 
+// 1. Ensure useLocation and Link are imported (Removed unused useParams)
+import { useLocation, Link } from 'react-router-dom'; 
 import { 
   ArrowRight, 
   ArrowLeft, 
@@ -14,15 +14,13 @@ import {
   ShoppingBag,
   GraduationCap
 } from 'lucide-react';
-// Ensure this path is correct for your project structure
 import PageLayout from '../components/PageLayout'; 
 
-// === NEW IMPORTS FOR CASE STUDY IMAGES ===
+// === IMAGE IMPORTS ===
 import factor6Image from '../assets/images/case_studies/the-jopwell-collection-u5pAYGDWD54-unsplash.jpg';
 import hulaImage from '../assets/images/case_studies/Kids2.jpg';
 import fairfieldImage from '../assets/images/case_studies/Fairfields.webp';
 import wcedImage from '../assets/images/case_studies/Creating-Career-Pathways-Through-Training-Initiatives-2-scaled.webp';
-
 
 // --- 1. TYPE DEFINITIONS ---
 interface Feature {
@@ -183,11 +181,11 @@ const CaseStudiesPage = () => {
       setActiveStudyId(null);
     }
 
-    // Ensures page always loads at the top, even if showing a detail view immediately
+    // Ensures page always loads at the top
     window.scrollTo(0, 0); 
-  }, [location.pathname]); // Dependency on path change
+  }, [location.pathname, location.state]); // ADDED location.state dependency
 
-  // Find the active study. activeStudy will be CaseStudy | undefined
+  // Find the active study
   const activeStudy = CASE_STUDIES.find(s => s.id === activeStudyId);
 
   return (
@@ -237,7 +235,6 @@ const CaseStudiesPage = () => {
                 </div>
                 
                 <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-red-400 transition-colors">
-                  {/* Note: Removed activeStudy check here, which was unnecessary for the list view */}
                   {study.title} 
                 </h3>
                 <p className="text-gray-400 line-clamp-3 mb-6">
@@ -254,13 +251,11 @@ const CaseStudiesPage = () => {
       )}
 
       {/* === VIEW 2: THE STORY (Detail Page) === */}
-      {/* 🛑 FIX APPLIED: Type narrowing is now done by TypeScript. */}
       {activeStudy && (
         <div className="animate-fade-in-up">
           
           {/* HERO */}
           <div className="relative h-[400px] rounded-3xl overflow-hidden mb-16 group">
-            {/* NO MORE ERROR HERE because TS knows activeStudy is defined */}
             <img 
               src={activeStudy.image} 
               alt={activeStudy.title} 
